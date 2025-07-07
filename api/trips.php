@@ -4,9 +4,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
-// Réponse de test
-echo json_encode(["message" => "Connexion réussie"]);
-require_once(__DIR__ . '/../db/connexion.php');
+require_once __DIR__ . '/../connexion.php';
 
 echo json_encode(["status" => "OK", "message" => "Connexion réussie"]);
 try {
