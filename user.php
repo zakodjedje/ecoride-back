@@ -11,3 +11,19 @@ function addUser (PDO $pdo,string $nom, string $prenom, string $email, string $m
     return $query->execute();
 }
 
+function verifyUser ($user):array|bool {
+
+    $errors=[];
+
+    if (isset($user["username"])) {
+        if ($user["username"]=== ""){
+            $errors ["username"]="le champ username est Obligatoire";
+        }
+    }
+    if (count($errors)){
+        return $errors;
+    }else {
+        return true;
+    };
+
+}
