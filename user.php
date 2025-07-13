@@ -2,6 +2,9 @@
 
 function addUser (PDO $pdo,string $nom, string $prenom, string $email, string $motdepasse, string $role ) :bool {
     $query =$pdo->prepare("INSERT INTO user(nom, prenom, email, motdepasse, role) VALUES (:nom, :prenom, :email, :motdepasse, :role)");
+
+    $motdepasse = password_hash($motdepasse, PASSWORD_DEFAULT);
+
     $query ->bindValue (':nom', $nom);
     $query ->bindValue (':prenom', $prenom);
     $query ->bindValue (':email', $email);
