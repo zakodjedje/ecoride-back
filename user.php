@@ -22,7 +22,23 @@ function verifyUser ($user):array|bool {
         if ($user["username"]=== ""){
             $errors ["username"]="le champ username est Obligatoire";
         }
-    }
+    } else {$errors["username"]="le champ n'a pas été envoyé"; }
+
+
+     if (isset($user["email"])) {
+        if ($user["email"]=== ""){
+            $errors ["email"]="le champ email est Obligatoire";
+        }
+    } else {$errors["email"]="le champ n'a pas été envoyé"; }
+
+
+    if (isset($user["password"])) {
+        if ($user["password"]=== ""){
+            $errors ["password"]="le champ username est Obligatoire";
+        }
+    } else {$errors["password"]="le champ n'a pas été envoyé"; }
+
+
     if (count($errors)){
         return $errors;
     }else {
