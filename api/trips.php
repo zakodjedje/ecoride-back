@@ -6,7 +6,7 @@ header("Access-Control-Allow-Headers: Content-Type");
 
 require_once __DIR__ . '/../connexion.php';
 
-echo json_encode(["status" => "OK", "message" => "Connexion réussie"]);
+echo json_encode(["status" => "OK", "message" => "Connexion réussie entre back et front c tt"]);
 try {
     $stmt = $pdo->query("SELECT * FROM trip");
     $trips = $stmt->fetchAll(PDO::FETCH_ASSOC);

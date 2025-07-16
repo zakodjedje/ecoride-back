@@ -1,14 +1,18 @@
 <?php
+require_once 'connexion.php';
+require_once 'user.php';
 
-function addUser (PDO $pdo,string $nom, string $prenom, string $email, string $motdepasse, string $role ) :bool {
-    $query =$pdo->prepare("INSERT INTO user(nom, prenom, email, motdepasse, role) VALUES (:nom, :prenom, :email, :motdepasse, :role)");
+header("Content-Type: application/json");
 
-    $motdepasse = password_hash($motdepasse, PASSWORD_DEFAULT);
+function addUser (PDO $pdo,string $username, string $firstname, string $email, string $password, string $role ) :bool {
+    $query =$pdo->prepare("INSERT INTO user(username, firstname, email, password, role) VALUES (:username, :firstname, :email, :password, :role)");
 
-    $query ->bindValue (':nom', $nom);
-    $query ->bindValue (':prenom', $prenom);
+    $motdepasse = password_hash($password, PASSWORD_DEFAULT);
+
+    $query ->bindValue (':username', $username);
+    $query ->bindValue (':firstname', $firstname);
     $query ->bindValue (':email', $email);
-    $query ->bindValue (':motdepasse', $motdepasse);
+    $query ->bindValue (':password', $password);
     $query ->bindValue (':role', $role);
 
     return $query->execute();
@@ -46,3 +50,46 @@ function verifyUser ($user):array|bool {
     };
 
 }
+
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $input = json_decode(file_get_contents("php://input"), true);
+
+    // 1. Vérifier les données
+    $res = verifyUser($input);
+    var_dump($res);
+    if ($res === true) {
+        // 2. Si vérification OK, on ajoute l'utilisateur
+        $addResult = addUser(
+            $pdo,
+        $input["username"],
+        $input["firstname"],
+        $input["email"],
+        $input["password"],
+        $input["role"]
+        );
+
+        if ($addResult === true) {
+            echo json_encode([
+                "success" => true,
+                "message" => "Utilisateur ajouté avec succès"
+            ]);
+        } else {
+            // ⚠️ Si addUser échoue (ex: doublon email)
+            echo json_encode([
+                "success" => false,
+                "errors" => ["global" => "Impossible d'ajouter l'utilisateur"]
+            ]);
+        }
+    } else {
+        // 3. Si la vérification échoue, on retourne les erreurs
+        echo json_encode([
+            "success" => false,
+            "errors" => $res
+        ]);
+    }
+
+    exit;
+};
+
+
