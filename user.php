@@ -12,7 +12,7 @@ function addUser (PDO $pdo,string $username, string $firstname, string $email, s
     $query ->bindValue (':username', $username);
     $query ->bindValue (':firstname', $firstname);
     $query ->bindValue (':email', $email);
-    $query ->bindValue (':password', $password);
+    $query ->bindValue (':password', $motdepasse);
     $query ->bindValue (':role', $role);
 
     return $query->execute();
