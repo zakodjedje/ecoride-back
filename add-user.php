@@ -10,12 +10,34 @@ header("Content-Type: application/json");
 
 // Connexion à la BDD
 require_once 'connexion.php';
-require_once 'user.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit;
-}
+
+
 
 $input = json_decode(file_get_contents("php://input"), true);
 
+
+
+
+try {
+    $stmt = $pdo->prepare("INSERT INTO `user` (username, firstname, email, password, role)
+                           VALUES (:username, :firstname, :email, :password, :role)");
+
+    $stmt->execute([
+        ':username' => $input['username'],
+        ':firstname' => $input['firstname'],
+        ':email' => $input['email'],
+        ':password' => password_hash($input['password'], PASSWORD_DEFAULT),
+        ':role' => $input['role']
+    ]);
+
+    echo json_encode([
+        "success" => true,
+        "message" => "Utilisateur ajouté depuis le formulaire"
+    ]);
+} catch (PDOException $e) {
+    echo json_encode([
+        "success" => false,
+        "message" => "Erreur SQL : " . $e->getMessage()
+    ]);
+}
