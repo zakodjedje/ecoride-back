@@ -41,3 +41,4 @@ try {
         "message" => "Erreur SQL : " . $e->getMessage()
     ]);
 }
+
