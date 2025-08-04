@@ -11,9 +11,13 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 
 if (isset($_SESSION['user'])) {
     echo json_encode([
-        "connected" => true,
-        "user" => $_SESSION['user']
-    ]);
+  "connected" => true,
+  "user" => [
+    "id" => $_SESSION['user']['id'],
+    "username" => $_SESSION['user']['username'],
+    "role" => $_SESSION['user']['role']
+  ]
+]);
 } else {
     echo json_encode([
         "connected" => false
