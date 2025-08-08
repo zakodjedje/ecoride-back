@@ -20,15 +20,16 @@ $input = json_decode(file_get_contents("php://input"), true);
 
 
 try {
-    $stmt = $pdo->prepare("INSERT INTO `user` (username, firstname, email, password, role)
-                           VALUES (:username, :firstname, :email, :password, :role)");
+    $stmt = $pdo->prepare("INSERT INTO `user` (username, firstname, email, password, role, note)
+                           VALUES (:username, :firstname, :email, :password, :role, :note)");
 
     $stmt->execute([
         ':username' => $input['username'],
         ':firstname' => $input['firstname'],
         ':email' => $input['email'],
         ':password' => password_hash($input['password'], PASSWORD_DEFAULT),
-        ':role' => $input['role']
+        ':role' => $input['role'],
+        ':note' => $input['note']
     ]);
 
     echo json_encode([
