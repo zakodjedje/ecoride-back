@@ -14,7 +14,7 @@ require_once 'connexion.php';
 
 // Vérifie la connexion de l'utilisateur
 // Ici, je suppose que l'ID de l'utilisateur est stocké en session dans $_SESSION['user_id'].
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user']['id'])) {
     echo json_encode([
         'success' => false,
         'message' => 'Utilisateur non connecté'
@@ -28,7 +28,7 @@ $arrivee = trim($_POST['arrivee'] ?? '');
 $dateHeure = $_POST['date-heure'] ?? '';   // nom de l'input : date-heure
 $prix = $_POST['prix'] ?? '';
 $carId = intval($_POST['vehicle_id'] ?? $_POST['car_id'] ?? 0); // le select est nommé "vehicle_id"
-$userId = $_SESSION['user_id'];
+$userId = $_SESSION['user']['id'];;
 
 if (empty($depart) || empty($arrivee) || empty($dateHeure) || $prix === '' || $carId <= 0) {
     echo json_encode([

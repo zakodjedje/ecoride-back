@@ -26,12 +26,12 @@ $filterType = trim($data["filterType"]);
 
 try {
     $sql = "
-        SELECT t.id AS trip_id, t.depart, t.arrivé, t.date_heure, t.prix,
+        SELECT t.id AS trip_id, t.depart, t.arrivee, t.date_heure, t.prix,
                u.id AS user_id, u.username, u.email, u.role
         FROM trip t
         JOIN user u ON t.user_id = u.id
         WHERE t.depart LIKE :depart
-          AND t.arrivé LIKE :arrivee
+          AND t.arrivee LIKE :arrivee
           AND DATE(t.date_heure) = :date
     ";
 
